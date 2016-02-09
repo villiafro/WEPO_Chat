@@ -6,14 +6,47 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Chatroom3000</title>
         <link rel="stylesheet" href="css/style.css">
-        <link rel="author" href="humans.txt">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     </head>
-    <body ng-controller="chatroom">
-   		<div>
-   			<input type="text" ng-model="username" placeholder="Enter your name here...">
-   			<h1>hello, {{username}}!</h1>
-   		</div>
+    <body ng-controller="chatroom" id="body">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<script src="js/logInModal.js"></script>
+
+		<div class="well" id="textarea"></div>
+		<div class="well" id="loggers"></div>
+		<footer class="well" id="sendmessage">
+			<input id="inputmessage" type="text" class="form-control" ng-model="username" placeholder="Enter messsage here...">
+			<button id="logInButton" type="button" class="btn btn-success">Send</button>
+		</footer>
+
+		<div id="logInModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Log In</h4>
+					</div>
+					<div class="modal-body" id="modalBodySave">
+						<p>Here you can log onto the server.</p>
+						<form class="form-inline" id="logInForm">
+							<input id="inputname" type="text" class="form-control" ng-model="username" placeholder="Enter your name here...">
+							<button id="logInButton" type="button" class="btn btn-info">Log In</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<div class="alert alert-danger" role="alert" id="alertsignin">
+						  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						  <span class="sr-only">Error:</span>
+						  The username is not available.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
         <script src="js/chatcontroller.js"></script>
         <script src="js/chatservice.js"></script>
     </body>
