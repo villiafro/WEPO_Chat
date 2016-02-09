@@ -1,0 +1,20 @@
+<!doctype html>
+<html ng-app="chat">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Chatroom3000</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="author" href="humans.txt">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    </head>
+    <body ng-controller="chatroom">
+   		<div>
+   			<input type="text" ng-model="username" placeholder="Enter your name here...">
+   			<h1>hello, {{username}}!</h1>
+   		</div>
+        <script src="js/chatcontroller.js"></script>
+        <script src="js/chatservice.js"></script>
+    </body>
+</html>
