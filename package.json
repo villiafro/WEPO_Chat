@@ -1,0 +1,28 @@
+{
+  "name": "wepochat",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/villiafro/WEPO_Chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/villiafro/WEPO_Chat/issues"
+  },
+  "homepage": "https://github.com/villiafro/WEPO_Chat#readme",
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-keepalive": "0.0.1",
+    "jshint-stylish": "latest"
+  }
+}
