@@ -1,13 +1,5 @@
-angular.module("chat").factory("ChatResource", function ChatResource(){
+angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
 	var socket = io.connect("http://localhost:8080");
-	/*return {
-		login: function login(user, callback){
-
-		}
-		getRoomList: function getRoomList(callback){
-
-		}
-	}*/
 	return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  

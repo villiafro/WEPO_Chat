@@ -12,7 +12,7 @@ angular.module("chat", ["ng", "ngRoute"]).config(function($routeProvider){
 	}).otherwise({redirectTo: "/index"});
 });
 
-angular.module("chat").factory("ChatResource", function ChatResource(){
+angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
 	var socket = io.connect("http://localhost:8080");
 	return {
     on: function (eventName, callback) {
@@ -39,16 +39,14 @@ angular.module("chat").factory("ChatResource", function ChatResource(){
 angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
 
-	socket.on("roomlist", function(data){
-		console.log(data);
-	});
-
 	$scope.nick = "";
 	$scope.onLogin = function(view){
 		socket.emit("adduser", $scope.nick, function(available){
 			if(available){
-				$location.path('/roomlist');
-				/*socket.emit("rooms");*/
+				$scope.$apply(function(){
+					$location.path('/roomlist');
+				})
+				
 			}
 			else{
 				$scope.errorMessage = "FAILED!";
@@ -65,8 +63,15 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "ChatResou
 angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "ChatResource", "$location", function($scope, $http, ChatResource, $location){
 	var socket = io.connect("http://localhost:8080");
 	$scope.rooms = "";
-	socket.emit("rooms", $scope.rooms, function(data){
-		$scope.rooms = data.name;
+
+	socket.on("roomlist", function(data){
+		$scope.$apply(function(){
+			$scope.rooms = data;
+		})
+		console.log(data);
 	});
+
+	socket.emit("rooms");
+
 }]);
 
