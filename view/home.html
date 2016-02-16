@@ -1,7 +1,11 @@
 <h2>welcome to chat!</h2>
+
 <div ng-controller="loginCTRL">
-	<input type="text" ng-model="nick"></input>
-	<button ng-click="login()">login</button>
+	<form>
+		<input type="text" autofocus="autofocus" ng-model="nick" required></input>
+		<button ng-click="onLogin()">login</button>
+	</form>
+	<label>{{errorMessage}}</label>
 </div>
 
 
