@@ -1,0 +1,9 @@
+<h2>welcome to roomlist!</h2>
+
+<div ng-controller="roomlistCTRL">
+	<ul>
+	    <li ng-repeat="room in rooms">
+	    	<a ng-href="#/view/rooms/{{room.id}}">{{room.name}}</a>
+	    </li>
+	</ul>
+</div>
