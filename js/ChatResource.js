@@ -1,4 +1,4 @@
-angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
+/*angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
 	var socket = io.connect("http://localhost:8080");
 	return {
     on: function (eventName, callback) {
@@ -20,4 +20,4 @@ angular.module("chat").factory("ChatResource", function ChatResource($rootScope)
       })
     }
   };
-});
+});*/

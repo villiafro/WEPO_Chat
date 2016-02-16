@@ -12,7 +12,7 @@ angular.module("chat", ["ng", "ngRoute"]).config(function($routeProvider){
 	}).otherwise({redirectTo: "/index"});
 });
 
-angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
+/*angular.module("chat").factory("ChatResource", function ChatResource($rootScope){
 	var socket = io.connect("http://localhost:8080");
 	return {
     on: function (eventName, callback) {
@@ -34,7 +34,7 @@ angular.module("chat").factory("ChatResource", function ChatResource($rootScope)
       })
     }
   };
-});
+});*/
 
 angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
@@ -46,21 +46,22 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 				$scope.$apply(function(){
 					$location.path('/roomlist');
 				})
-				
 			}
 			else{
-				$scope.errorMessage = "FAILED!";
+				$scope.$apply(function(){
+					$scope.errorMessage = "FAILED!";
+				})
 			}
 		});
 
 	};
 }]);
 
-angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "ChatResource", "$location", function($scope, $http, ChatResource, $location){
+angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 
 }]);
 
-angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "ChatResource", "$location", function($scope, $http, ChatResource, $location){
+angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location", function($scope, $http, ChatResource, $location){
 	var socket = io.connect("http://localhost:8080");
 	$scope.rooms = "";
 
@@ -68,10 +69,26 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "ChatResou
 		$scope.$apply(function(){
 			$scope.rooms = data;
 		})
-		console.log(data);
 	});
 
 	socket.emit("rooms");
+
+	/*$scope.newroom = "";
+	$scope.createRoom = function(view){
+		socket.emit("adduser", $scope.nick, function(available){
+			if(available){
+				$scope.$apply(function(){
+					$location.path('/roomlist');
+				})
+			}
+			else{
+				$scope.$apply(function(){
+					$scope.errorMessage = "FAILED!";
+				})
+			}
+		});
+
+	};*/
 
 }]);
 

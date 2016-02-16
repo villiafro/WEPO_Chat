@@ -3,7 +3,15 @@
 <div ng-controller="roomlistCTRL">
 	<ul>
 	    <li ng-repeat="room in rooms">
-	    	<a ng-href="#/view/rooms/{{room.id}}">{{room.topic}}</a>
+	    	<a ng-href="#/room/{{room.id}}">{{room.topic}}</a>
 	    </li>
 	</ul>
+
+	<div>
+		<form>
+			<input type="text" autofocus="autofocus" ng-model="newroom" required></input>
+			<button ng-click="createrRoom()">Join</button>
+		</form>
+		<label>{{errorMessage}}</label>
+	</div>
 </div>

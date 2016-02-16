@@ -3,6 +3,7 @@ app = express(),
 http = require('http'), 
 server = http.createServer(app),
 io = require('socket.io').listen(server);
+var counter = 1;
 
 server.listen(8080);
 
@@ -303,6 +304,7 @@ io.sockets.on('connection', function (socket) {
 //Define the Room class/object.
 function Room() {
 	this.users = {},
+	this.id = counter,
 	this.ops = {},
 	this.banned = {},
 	this.messageHistory = [],
@@ -331,4 +333,5 @@ function Room() {
 		this.password = "";
 		this.locked = false;
 	};
+	counter++;
 }
