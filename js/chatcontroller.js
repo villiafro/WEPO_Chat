@@ -49,7 +49,7 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 			}
 			else{
 				$scope.$apply(function(){
-					$scope.errorMessage = "FAILED!";
+					$scope.errorMessage = "* Sorry this nickname is occupied! *";
 				})
 			}
 		});
@@ -60,8 +60,10 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
-	var theroom;
-	var obj;
+	//var theroom;
+	//var obj;
+
+	$scope.roomname = $location.path().split("/")[2];
 
 	socket.on("updateusers", function(room, roomusers, ops){
 		$scope.users = roomusers;
@@ -76,7 +78,7 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 		})
 	});
 
-	socket.on("roomlist", function(data){
+	/*socket.on("roomlist", function(data){
 		var counter = 0;
 		theroom = $location.path().split("/")[2];
 		//console.log(theroom);
@@ -88,21 +90,21 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 				$scope.texters = obj.messageHistory;
 			}
 		}
-	});
+	});*/
 
 	$scope.sendMessage = function(){
 		socket.emit("sendmsg", {roomName: $location.path().split("/")[2],msg: $scope.message});
 		$scope.message = "";
 	}
 
-	$scope.outRoom = function(){
+	/*$scope.outRoom = function(){
 		var roomout = $location.path().split("/")[2];
 		socket.emit("partroom", roomout, function(){
 			$scope.$apply(function(){
 				$location.path('/roomlist');
 			})
 		});
-	}
+	}*/
 
 }]);
 

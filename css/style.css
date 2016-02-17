@@ -2,31 +2,23 @@
 	margin: 10px;
 }
 
-#inputname{
-	display: inline-block;
-}
-
-#alertsignin{
-	display: none;
+#loginerror{
+	float: left;
+	color: red;
 }
 
 #textarea{
-	width: 600px;
-	height: 400px;
+	height: 500px;
 	display: inline-block;
 }
 
 #loggers{
+	float: right;
 	width: 200px;
-	height: 400px;
+	height: 500px;
 	display: inline-block;
-}
-
-#sendmessage{
-	width: 800px;
 }
 
 #inputmessage{
-	display: inline-block;
-	width: 650px;
+	width: 630px;
 }
