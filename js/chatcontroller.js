@@ -63,11 +63,16 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 	var theroom;
 	var obj;
 
+	socket.on("updateusers", function(room, roomusers, ops){
+		$scope.users = roomusers;
+	});
+
 	socket.on("updatechat", function(room, messages){
 		$scope.$apply(function(){
 			//$scope.room = room;
 			$scope.texters = messages;
 			$scope.message = "";
+
 		})
 	});
 
@@ -84,8 +89,6 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 			}
 		}
 	});
-
-	//socket.emit("rooms");
 
 	$scope.sendMessage = function(){
 		socket.emit("sendmsg", {roomName: $location.path().split("/")[2],msg: $scope.message});
