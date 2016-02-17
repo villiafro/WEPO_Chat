@@ -59,18 +59,29 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 }]);
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
+	var socket = io.connect("http://localhost:8080");
+	var theroom = $location.path().split("/")[2];
 
+	socket.on("roomlist", function(data){
+			var i = 0;
+			for(i = 0; i < 10; i++){
+				console.log(Object.getOwnPropertyNames(data[Object.getOwnPropertyNames(data)[0]]));
+				if(Object.getOwnPropertyNames(data) === theroom){
+					console.log("YOUR IN");
+				}
+			}
+	});
+
+	socket.emit("rooms");
 }]);
 
-angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location", function($scope, $http, ChatResource, $location){
+angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
 	$scope.rooms = "";
 
 	socket.on("roomlist", function(data){
 		$scope.$apply(function(){
 			$scope.rooms = Object.getOwnPropertyNames(data);
-			console.log(data);
-			console.log(Object.getOwnPropertyNames(data));
 		})
 	});
 
@@ -92,21 +103,10 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 	$scope.joinRoom = function(){
 		var roomy = new Object();
 		roomy.room = $scope.newroom;
-
 		socket.emit("joinroom", roomy, function(available){
-			if(available){
-				$scope.$apply(function(){
-					/*$location.path('/room/: roomID');*/
-					$location.path('/room/: roomID');
-					console.log(roomy);
-				})
-			}
-			else{
-				$scope.$apply(function(){
-					$scope.errorMessage = "FAILED!";
-				})
-			}
-
+			$scope.$apply(function(){
+				$location.path('/room/' + roomy.room);
+			})
 		});
 	}
 	$scope.joinRoomEx = function(thisroom){
@@ -116,8 +116,6 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 		socket.emit("joinroom", roomy, function(available){
 			if(available){
 				$scope.$apply(function(){
-					/*$location.path('/room/: roomID');*/
-					console.log(roomy);
 				})
 			}
 			else{

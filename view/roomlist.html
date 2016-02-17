@@ -1,6 +1,7 @@
 <h2>welcome to roomlist!</h2>
 
 <div ng-controller="roomlistCTRL">
+	<label>Available rooms:</label>
 	<ul>
 	    <li ng-repeat="room in rooms">
 	    	<a ng-click="joinRoomEx(room)" ng-href="#/room/{{room}}">{{room}}</a>
@@ -9,13 +10,16 @@
 
 	<div>
 		<form>
-			<input type="text" autofocus="autofocus" ng-model="newroom" required></input>
-			<button ng-click="joinRoom()">Join</button>
+			<input type="text" ng-model="newroom" required></input>
+			<button ng-click="joinRoom()" >Join</button>
 		</form>
 	</div>
-	<ul>
-	    <li ng-repeat="user in users">
-	    	{{user}}
-	    </li>
-	</ul>
+	<div>
+		<label>Users:</label>
+		<ul>
+		    <li ng-repeat="user in users">
+		    	{{user}}
+		    </li>
+		</ul>
+	</div>
 </div>
