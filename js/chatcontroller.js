@@ -60,19 +60,47 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
-	var theroom = $location.path().split("/")[2];
+	var theroom;
+	var obj;
 
 	socket.on("roomlist", function(data){
-			var i = 0;
-			for(i = 0; i < 10; i++){
-				console.log(Object.getOwnPropertyNames(data[Object.getOwnPropertyNames(data)[0]]));
-				if(Object.getOwnPropertyNames(data) === theroom){
-					console.log("YOUR IN");
-				}
+		var counter = 0;
+		theroom = $location.path().split("/")[2];
+		console.log(theroom);
+		for(datas in data){
+			if(datas == theroom){
+				counter++;
+				obj = data[Object.keys(data)[counter]];
+				$scope.users = obj.users;
+				$scope.texters = obj.messageHistory;
 			}
+		}
 	});
 
 	socket.emit("rooms");
+
+	$scope.message = "";
+
+	$scope.sendMessage = function(){
+		var mess = new Object();
+		mess.msg = $scope.message;
+		mess.roomName = $location.path().split("/")[2];
+		socket.emit("sendmsg", mess, function(){
+			$scope.$apply(function(){
+				console.log(obj);
+			})
+		});
+	}
+
+	$scope.outRoom = function(){
+		var roomout = $location.path().split("/")[2];
+		socket.emit("partroom", roomout, function(){
+			$scope.$apply(function(){
+				$location.path('/roomlist');
+			})
+		});
+	}
+
 }]);
 
 angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){

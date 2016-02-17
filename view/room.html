@@ -1,11 +1,21 @@
-<h2>welcome to room!</h2>
 
 <div ng-controller="chatroomCTRL">
-	<div class="well" id="textarea"></div>
+	<h2>welcome to room!</h2>
+	<button ng-click="outRoom()">OUT</button>
+	<div class="well" id="textarea">
+		<label>Messages: </label>
+		<ul>
+		    <li ng-repeat="text in texters">{{text.nick}} --> {{text.message}}</li>
+		</ul>
+	</div>
 	<div class="well" id="loggers">
+		<label>Loggers: </label>
+		<ul>
+		    <li ng-repeat="user in users">{{user}}</li>
+		</ul>
 	</div>
 	<footer class="well" id="sendmessage">
-		<input id="inputmessage" type="text" class="form-control" ng-model="username" placeholder="Enter messsage here...">
-		<button id="logInButton" type="button" class="btn btn-success">Send</button>
+		<input ng-model="message" id="inputmessage" type="text" class="form-control" ng-model="username" placeholder="Enter messsage here...">
+		<button ng-click="sendMessage()" id="logInButton" type="button" class="btn btn-success">Send</button>
 	</footer>
 </div>
