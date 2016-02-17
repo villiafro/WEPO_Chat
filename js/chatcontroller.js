@@ -83,20 +83,11 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 
 	$scope.sendMessage = function(){
 		socket.emit("sendmsg", {roomName: $location.path().split("/")[2],msg: $scope.message});
-
-		/*var mess = new Object();
-		mess.msg = $scope.message;
-		mess.roomName = $location.path().split("/")[2];
-
-		socket.emit("sendmsg", mess, function(){
-			$scope.$apply(function(){
-				console.log(obj);
-			})
-		});*/
 	}
 
 	socket.on("updatechat", function(room, messages){
 		$scope.$apply(function(){
+			$scope.room = room;
 			$scope.texters = messages;
 		})
 	});
