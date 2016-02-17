@@ -3,7 +3,7 @@ app = express(),
 http = require('http'), 
 server = http.createServer(app),
 io = require('socket.io').listen(server);
-var counter = 1;
+var counter = 0;
 
 server.listen(8080);
 

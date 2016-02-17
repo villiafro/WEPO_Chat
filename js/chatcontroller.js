@@ -40,7 +40,7 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 	var socket = io.connect("http://localhost:8080");
 
 	$scope.nick = "";
-	$scope.onLogin = function(view){
+	$scope.onLogin = function(){
 		socket.emit("adduser", $scope.nick, function(available){
 			if(available){
 				$scope.$apply(function(){
@@ -55,6 +55,7 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 		});
 
 	};
+
 }]);
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
@@ -67,18 +68,37 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 
 	socket.on("roomlist", function(data){
 		$scope.$apply(function(){
-			$scope.rooms = data;
+			$scope.rooms = Object.getOwnPropertyNames(data);
+			console.log(data);
+			console.log(Object.getOwnPropertyNames(data));
 		})
 	});
 
 	socket.emit("rooms");
 
-	/*$scope.newroom = "";
-	$scope.createRoom = function(view){
-		socket.emit("adduser", $scope.nick, function(available){
+	$scope.users = "";
+
+	socket.on("userlist", function(data){
+		$scope.$apply(function(){
+			$scope.users = data;
+		})
+	});
+
+	socket.emit("users");
+
+
+	$scope.newroom = "";
+
+	$scope.joinRoom = function(){
+		var roomy = new Object();
+		roomy.room = $scope.newroom;
+
+		socket.emit("joinroom", roomy, function(available){
 			if(available){
 				$scope.$apply(function(){
-					$location.path('/roomlist');
+					/*$location.path('/room/: roomID');*/
+					$location.path('/room/: roomID');
+					console.log(roomy);
 				})
 			}
 			else{
@@ -86,9 +106,28 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 					$scope.errorMessage = "FAILED!";
 				})
 			}
-		});
 
-	};*/
+		});
+	}
+	$scope.joinRoomEx = function(thisroom){
+		var roomy = new Object();
+		roomy.room = thisroom;
+
+		socket.emit("joinroom", roomy, function(available){
+			if(available){
+				$scope.$apply(function(){
+					/*$location.path('/room/: roomID');*/
+					console.log(roomy);
+				})
+			}
+			else{
+				$scope.$apply(function(){
+					$scope.errorMessage = "FAILED!";
+				})
+			}
+
+		});
+	}
 
 }]);
 
