@@ -66,7 +66,7 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 	socket.on("roomlist", function(data){
 		var counter = 0;
 		theroom = $location.path().split("/")[2];
-		console.log(theroom);
+		//console.log(theroom);
 		for(datas in data){
 			if(datas == theroom){
 				counter++;
@@ -82,15 +82,24 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 	$scope.message = "";
 
 	$scope.sendMessage = function(){
-		var mess = new Object();
+		socket.emit("sendmsg", {roomName: $location.path().split("/")[2],msg: $scope.message});
+
+		/*var mess = new Object();
 		mess.msg = $scope.message;
 		mess.roomName = $location.path().split("/")[2];
+
 		socket.emit("sendmsg", mess, function(){
 			$scope.$apply(function(){
 				console.log(obj);
 			})
-		});
+		});*/
 	}
+
+	socket.on("updatechat", function(room, messages){
+		$scope.$apply(function(){
+			$scope.texters = messages;
+		})
+	});
 
 	$scope.outRoom = function(){
 		var roomout = $location.path().split("/")[2];

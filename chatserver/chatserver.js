@@ -29,7 +29,7 @@ io.sockets.on('connection', function (socket) {
 			users[username] = { username: socket.username, channels: {}, socket: this };
 			fn(true); // Callback, user name was available
 		}
-		else {
+		else 
 			fn(false); // Callback, it wasn't available
 		}
 	});
