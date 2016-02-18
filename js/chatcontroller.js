@@ -60,9 +60,9 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
-	var theroom;
+	var theroom = $location.path().split("/")[2];
 
-	$scope.roomname = $location.path().split("/")[2];
+	$scope.roomname = theroom;
 
 	socket.on("updateusers", function(room, roomusers, ops){
 		$scope.$apply(function(){
@@ -85,11 +85,8 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 	}
 
 	$scope.leaveRoom = function(){
-		var roomout = $location.path().split("/")[2];
-		socket.emit("partroom", $location.path().split("/")[2]);
-		$scope.$apply(function(){
-			$location.path('/roomlist');
-		})
+		socket.emit("partroom", theroom); 
+		$location.path('/roomlist');		
 	}
 
 }]);
@@ -118,6 +115,12 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 
 
 	$scope.newroom = "";
+
+	$scope.disc = function(){
+		socket.emit("disconnects");
+		socket.emit("users");
+		$location.path("/index");	
+	}
 
 	$scope.joinRoom = function(){
 		socket.emit("joinroom", {room: $scope.newroom}, function(available){
