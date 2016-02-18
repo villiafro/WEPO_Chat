@@ -49,7 +49,7 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 			}
 			else{
 				$scope.$apply(function(){
-					$scope.errorMessage = "* Sorry this nickname is occupied! *";
+					$scope.errorMessage = "FAILED!";
 				})
 			}
 		});
@@ -60,51 +60,37 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 
 angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location", function($scope, $http, $location){
 	var socket = io.connect("http://localhost:8080");
-	//var theroom;
-	//var obj;
+	var theroom;
 
 	$scope.roomname = $location.path().split("/")[2];
 
 	socket.on("updateusers", function(room, roomusers, ops){
-		$scope.users = roomusers;
+		$scope.$apply(function(){
+			$scope.users = roomusers;
+		})
 	});
 
 	socket.on("updatechat", function(room, messages){
 		$scope.$apply(function(){
-			//$scope.room = room;
 			$scope.texters = messages;
 			$scope.message = "";
 
 		})
 	});
 
-	/*socket.on("roomlist", function(data){
-		var counter = 0;
-		theroom = $location.path().split("/")[2];
-		//console.log(theroom);
-		for(datas in data){
-			if(datas == theroom){
-				counter++;
-				obj = data[Object.keys(data)[counter]];
-				$scope.users = obj.users;
-				$scope.texters = obj.messageHistory;
-			}
-		}
-	});*/
 
 	$scope.sendMessage = function(){
 		socket.emit("sendmsg", {roomName: $location.path().split("/")[2],msg: $scope.message});
 		$scope.message = "";
 	}
 
-	/*$scope.outRoom = function(){
+	$scope.leaveRoom = function(){
 		var roomout = $location.path().split("/")[2];
-		socket.emit("partroom", roomout, function(){
-			$scope.$apply(function(){
-				$location.path('/roomlist');
-			})
-		});
-	}*/
+		socket.emit("partroom", $location.path().split("/")[2]);
+		$scope.$apply(function(){
+			$location.path('/roomlist');
+		})
+	}
 
 }]);
 
@@ -134,11 +120,9 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 	$scope.newroom = "";
 
 	$scope.joinRoom = function(){
-		var roomy = new Object();
-		roomy.room = $scope.newroom;
-		socket.emit("joinroom", roomy, function(available){
+		socket.emit("joinroom", {room: $scope.newroom}, function(available){
 			$scope.$apply(function(){
-				$location.path('/room/' + roomy.room);
+				$location.path('/room/' + $scope.newroom);
 			})
 		});
 	}
@@ -146,9 +130,10 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 		var roomy = new Object();
 		roomy.room = thisroom;
 
-		socket.emit("joinroom", roomy, function(available){
+		socket.emit("joinroom", {room: thisroom}, function(available){
 			if(available){
 				$scope.$apply(function(){
+					$location.path('/room/' + thisroom);
 				})
 			}
 			else{
