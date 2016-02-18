@@ -5,9 +5,10 @@
 				<h2>Available rooms:</h2>
 			</div>
 			<div class="modal-body" style="height: 260px">
-				<ul>
+				<h4></h4>
+				<ul id="pointer">
 				    <li ng-repeat="room in rooms">
-				    	<a ng-click="joinRoomEx(room)" ng-href="#/room/{{room}}">{{room}}</a>
+				    	<a ng-click="joinRoomEx(room)" ng-href="#/room/{{room}}"><big><strong>{{room}}</strong></big></a>
 				    </li>
 				</ul>
 			</div>

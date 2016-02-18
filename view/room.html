@@ -6,10 +6,10 @@
 				<!--<button ng-click="onRoom()">OUT</button>-->
 			</div>
 			<div class="modal-body" style="height: 300px">
-				<h4>Messages: </h4>
-				<ul>
-				    <li ng-repeat="text in texters">{{text.nick}} -> {{text.message}}</li>
-				</ul>
+				<div ng-repeat="text in texters">
+					<h4 id="messages" style="display: inline">{{text.nick}}:</h4>
+					<label>"{{text.message}}"</label>
+				</div>
 			</div>
 			<div class="modal-footer" style="text-align: left">
 				<form class="form-inline">
