@@ -62,6 +62,15 @@ angular.module("chat").controller("chatroomCTRL", ["$scope", "$http", "$location
 	var socket = io.connect("http://localhost:8080");
 	var theroom = $location.path().split("/")[2];
 
+	socket.on("roomlist", function(data){
+		$scope.$apply(function(){
+			$scope.texters = data[$location.path().split("/")[2]].messageHistory;
+			$scope.users = data[$location.path().split("/")[2]].users;
+		})
+	});
+
+	socket.emit("rooms");
+
 	$scope.roomname = theroom;
 
 	socket.on("updateusers", function(room, roomusers, ops){
