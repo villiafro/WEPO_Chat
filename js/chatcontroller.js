@@ -49,7 +49,7 @@ angular.module("chat").controller("loginCTRL", ["$scope", "$http", "$location", 
 			}
 			else{
 				$scope.$apply(function(){
-					$scope.errorMessage = "FAILED!";
+					$scope.errorMessage = "This nick name is already in use!";
 				})
 			}
 		});
@@ -141,19 +141,10 @@ angular.module("chat").controller("roomlistCTRL", ["$scope", "$http", "$location
 	$scope.joinRoomEx = function(thisroom){
 		var roomy = new Object();
 		roomy.room = thisroom;
-
 		socket.emit("joinroom", {room: thisroom}, function(available){
-			if(available){
-				$scope.$apply(function(){
-					$location.path('/room/' + thisroom);
-				})
-			}
-			else{
-				$scope.$apply(function(){
-					$scope.errorMessage = "FAILED!";
-				})
-			}
-
+			$scope.$apply(function(){
+				$location.path('/room/' + thisroom);
+			})
 		});
 	}
 
